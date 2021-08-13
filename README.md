@@ -1,4 +1,4 @@
-# ldap
+# LDAP
 
 Lightweight directory access protocol (LDAP) is a protocol that makes it possible for applications to query user information rapidly.
 Companies store usernames, passwords, email addresses, printer connections, and other static data within directories. LDAP is an open, vendor-neutral application protocol for accessing and maintaining that data. LDAP can also tackle authentication, so users can sign on just once and access many different files on the server.
@@ -90,6 +90,50 @@ slapd is an LDAP directory server that runs on many different platforms. You can
 
 The OpenLDAP utilities include tools for exporting data from LDAP servers to LDIF content records (ldapsearch), importing data from LDIF content records to LDAP servers (ldapadd), and applying LDIF change records to LDAP servers (ldapmodify).
 
+### Some commands
+
+#### Finding LDAP server configuration using ldapsearch
+This command has to be run on the server directly, not from one of your LDAP clients.
+```shell
+ldapsearch -Y EXTERNAL -H ldapi:/// -b cn=config 
+```
+#### List all users
+##### Anonymous Authentication
+```shell
+ldapsearch -x -H ldap://localhost:1389 -b dc=example,dc=org 
+```
+
+##### Search LDAP with admin account
+```shell
+ldapsearch -x -H ldap://localhost:1389 -b dc=example,dc=org -D "cn=admin,dc=example,dc=org" -w adminpassword
+```
+
+
+- **-x**: Simple authentication
+- **-H**: URI LDAP Uniform Resource Identifier(s)
+- **-b**: base DN for search
+- **-D**: bind DN
+- **-w**: bind password (for simple authentication)
+- **-W**: prompt for bind password
+
+#### Add user
+```shell
+
+```
+#### Delete user
+```shell
+
+```
+
+#### Modify user
+```shell
+
+```
+
+#### Authenticate user
+```shell
+
+```
 
 ## Login
 ```shell
@@ -101,14 +145,14 @@ The OpenLDAP utilities include tools for exporting data from LDAP servers to LDI
 ```
 ```
 
-## Bitnami
+## Running OpenLDAP from Bitnami
 
 ```shell
 mkdir openldap_data
 chown -R 1001:0 openldap_data
 ```
 
-# Referencies
+## Referencies
 - [What is LDAP](https://www.okta.com/identity-101/what-is-ldap/)
 - [LDAP vs AD](https://www.varonis.com/blog/the-difference-between-active-directory-and-ldap/)
 - [OpenLDAP](https://www.openldap.org/)
