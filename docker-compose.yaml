@@ -1,0 +1,36 @@
+version: '3.7'
+
+networks: 
+  ldap:
+
+services:
+
+  ldap-auth:
+    image: ghcr.io/linuxserver/ldap-auth:version-3.3.1
+    container_name: ldap-auth
+    environment:
+      - TZ=America/Sao_Paulo
+      - FERNETKEY= #optional
+      - CERTFILE= #optional
+      - KEYFILE= #optional
+    ports:
+      - 8888:8888
+      - 9000:9000
+    networks:
+      - ldap
+  
+  openldap:
+    image: bitnami/openldap:2.5.5
+    container_name: openldap
+    ports:
+      - 1389:1389
+      - 1636:1636
+    environment:
+      - LDAP_ADMIN_USERNAME=admin
+      - LDAP_ADMIN_PASSWORD=adminpassword
+      - LDAP_USERS=user01,user02
+      - LDAP_PASSWORDS=password1,password2
+    volumes:
+      - ./openldap_data:/bitnami/openldap
+    networks:
+      - ldap

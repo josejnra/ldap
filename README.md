@@ -97,6 +97,10 @@ This command has to be run on the server directly, not from one of your LDAP cli
 ```shell
 ldapsearch -Y EXTERNAL -H ldapi:/// -b cn=config 
 ```
+Restrict the search to database configurations:
+```shell
+ldapsearch -Y EXTERNAL -H ldapi:/// -b cn=config "(objectclass=olcDatabaseConfig)"
+```
 #### List all users
 ##### Anonymous Authentication
 ```shell
@@ -117,8 +121,22 @@ ldapsearch -x -H ldap://localhost:1389 -b dc=example,dc=org -D "cn=admin,dc=exam
 - **-W**: prompt for bind password
 
 #### Add user
-```shell
+ldapadd to add entries an LDAP directory. LDAP add expects input in LDIF format.
+```ldif
+dn: dc=meudominio, dc=org
+dc: meudominio
+o: myorg
+objectclass: organization
+objectclass: dcObject
 
+dn: cn=admin, dc=meudominio, dc=org
+cn: admin
+sn: admin
+objectclass: person
+```
+
+```shell
+ldapadd -D "cn=Manager, dc=<MY-DOMAIN>, dc=<COM>" -W < myldif.ldif
 ```
 #### Delete user
 ```shell
@@ -157,3 +175,4 @@ chown -R 1001:0 openldap_data
 - [LDAP vs AD](https://www.varonis.com/blog/the-difference-between-active-directory-and-ldap/)
 - [OpenLDAP](https://www.openldap.org/)
 - [LDIF](https://en.wikipedia.org/wiki/LDAP_Data_Interchange_Format)
+- [ldapsearch](https://devconnected.com/how-to-search-ldap-using-ldapsearch-examples/)
